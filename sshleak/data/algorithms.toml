@@ -1,0 +1,22 @@
+# Algorithm families used by L10. These are reference lists, not tuned
+# thresholds. Sources: OpenSSH release notes (removals/deprecations) and
+# RFC 9142 / RFC 8758.
+
+[ciphers]
+weak = [
+    "3des-cbc", "blowfish-cbc", "cast128-cbc", "arcfour", "arcfour128", "arcfour256",
+    "aes128-cbc", "aes192-cbc", "aes256-cbc", "rijndael-cbc@lysator.liu.se", "des-cbc", "none",
+]
+
+[macs]
+weak = [
+    "hmac-md5", "hmac-md5-96", "hmac-md5-etm@openssh.com", "hmac-md5-96-etm@openssh.com",
+    "hmac-sha1-96", "hmac-sha1-96-etm@openssh.com",
+    "hmac-ripemd160", "hmac-ripemd160@openssh.com", "hmac-ripemd160-etm@openssh.com",
+    "umac-64@openssh.com", "umac-64-etm@openssh.com", "none",
+]
+[terrapin]
+# CVE-2023-48795 (Terrapin): prefix truncation affects ChaCha20-Poly1305 and
+# CBC ciphers combined with an EtM MAC, unless both sides use strict KEX.
+affected_ciphers = ["chacha20-poly1305@openssh.com"]
+affected_cbc_with_etm = true

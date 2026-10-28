@@ -1,0 +1,118 @@
+# sshleak detector thresholds (versioned; plan rule: never hard-code or loosen
+# one in code to pass a test).
+#
+# Status: PROVISIONAL. Values are first-pass settings checked against the lab
+# (synthetic + real OpenSSH builds). Phase 9 fitting with `sshleak lab
+# calibrate` proposes values; `calibrated` becomes true only after the
+# threshold-acceptance decision is recorded in docs/decisions.md.
+schema = 1
+version = "0.1.0-provisional"
+calibrated = false
+
+[global]
+min_packets = 60            # client packets in interactive phases before keystroke detectors run
+alpha = 0.01                # per-flow family-wise error rate (Holm across detectors)
+confidence_n0 = 60          # confidence = effect * (1 - exp(-n / n0))
+bootstrap_resamples = 400
+seed = 20261027
+
+[limits]
+max_records_per_flow = 100000
+max_flows = 512
+clock_step_tolerance_ms = 5.0
+clock_step_window_s = 1.0
+low_memory_mb = 256         # below this much free memory, caps are halved (case E6)
+
+[phases]
+auth_end_gap_s = 0.25
+auth_max_packets = 80
+auth_max_s = 10.0
+window_s = 1.0
+small_packet_max_bytes = 200
+bulk_bytes_per_s = 50000
+bulk_segment_min_bytes = 1000
+bulk_min_bytes = 16384
+mixed_min_client_large = 3
+rekey_min_bytes = 800
+rekey_pair_window_s = 0.2
+
+[ticks]
+merge_window_ms = 1.0       # client segments closer than this belong to one send tick
+paste_min_units = 3         # client packet of >= this many units is a paste, not a keystroke
+max_run_gap_s = 1.0         # longer pauses split typing runs
+
+[cadence]
+min_interval_ms = 5.0
+max_interval_ms = 250.0
+bin_ms = 0.5
+tolerance_abs_ms = 1.5
+tolerance_rel = 0.1
+grid_min_fraction = 0.8     # cadence present: this share of gaps on the k*T grid ...
+peak_min_fraction = 0.5     # ... and this share exactly one interval apart
+grid_h0_fraction = 0.9      # cadence absent: grid share significantly below this
+
+[echo]
+window_factor = 3.0         # reply window = factor * median reply latency
+window_min_ms = 2.0
+window_max_ms = 200.0
+response_window_s = 0.5     # Enter -> command output
+
+[shape]                     # late-join flows with no banner and no process info (G2)
+min_segments = 30
+modulus = 4                 # encrypted OpenSSH segment lengths are multiples of 4
+min_fraction = 0.98
+max_small_bytes = 1500
+confidence = 0.5
+
+[L1]
+[L2]
+default_interval_ms = 20.0
+default_expectation_factor = 0.8   # confidence factor when "on" is assumed from the version default
+
+[L3]
+min_double_ticks = 5
+min_double_fraction = 0.01
+noise_fraction = 0.002      # double ticks expected from timer noise in a fixed client
+
+[L4]
+min_run = 4                 # consecutive keystrokes without a reply
+min_echo_rate = 0.8         # elsewhere in the session keystrokes must be echoed this often
+min_latency_run = 6         # keystrokes whose replies are faster than normal echoes
+latency_ratio_max = 0.5
+redraw_noise_max = 0.3
+
+[L5]
+min_bursts = 5
+burst_gap_s = 1.5
+enter_output_min_units = 1.0   # server output = packet larger than this many echo units (not an echo+pong pair)
+
+[L6]
+min_events = 5
+obfuscated_confidence_factor = 0.5
+
+[L7]
+min_ticks = 100
+min_abs_rho = 0.3
+
+[L8]
+max_latency_p95_ms = 50.0
+max_chaff_bytes_per_s = 10000.0
+
+[L12]
+min_confidence = 0.5
+
+[confidence_caps]
+virtualised = 0.8
+capture_drops = 0.7
+late_join = 0.9
+shape_identified = 0.6
+mixed_traffic = 0.6
+redraw_noise = 0.6
+offload = 0.7
+clock_step = 0.8
+truncated_input = 0.8
+
+[score]                     # decision (Phase 5): 100 = no leaks; subtract weight * confidence
+high = 30.0
+medium = 12.0
+info = 2.0

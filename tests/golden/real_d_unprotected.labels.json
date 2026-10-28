@@ -1,0 +1,38 @@
+{
+  "cases": [
+    "V1",
+    "L1",
+    "L11"
+  ],
+  "client": "9.4p1",
+  "client_opts": [],
+  "client_version": "OpenSSH_9.4p1, OpenSSL 3.0.22 25 Aug 2026",
+  "commands": [
+    5,
+    2,
+    16,
+    11,
+    17,
+    16,
+    17,
+    6,
+    4,
+    16,
+    3,
+    21
+  ],
+  "effective_obscurekeystroketiming": null,
+  "expect": {
+    "L1": "fired",
+    "L11": "fired",
+    "L12": "fired",
+    "L2": "skipped",
+    "L3": "skipped",
+    "L5": "fired"
+  },
+  "mode": "pty",
+  "note": "Self-generated in the isolated sshleak lab container (--network none); typed text is synthetic. Labels hold lengths only.",
+  "scenario": "d_unprotected",
+  "server": "10.6p1",
+  "server_config": {}
+}

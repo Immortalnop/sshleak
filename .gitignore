@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+dist/
+build/
+lab-out/
+lab-matrix/
+thresholds.candidate.toml
+*.egg-info/

@@ -1,0 +1,36 @@
+{
+  "cases": [
+    "L1",
+    "L3"
+  ],
+  "client": "10.6p1",
+  "client_opts": [],
+  "client_version": "OpenSSH_10.6p1, OpenSSL 3.0.22 25 Aug 2026",
+  "commands": [
+    5,
+    2,
+    16,
+    11,
+    17,
+    16,
+    17,
+    6,
+    4,
+    16,
+    3,
+    21
+  ],
+  "effective_obscurekeystroketiming": "yes",
+  "expect": {
+    "L1": "not_fired",
+    "L11": "not_fired",
+    "L2": "not_fired",
+    "L3": "not_fired",
+    "L5": "not_fired"
+  },
+  "mode": "pty",
+  "note": "Self-generated in the isolated sshleak lab container (--network none); typed text is synthetic. Labels hold lengths only.",
+  "scenario": "d_fixed_106",
+  "server": "10.6p1",
+  "server_config": {}
+}

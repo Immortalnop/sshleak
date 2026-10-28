@@ -1,0 +1,36 @@
+{
+  "cases": [
+    "F5"
+  ],
+  "expect": {
+    "0": {
+      "L1": "fired",
+      "L10": "skipped",
+      "L11": "skipped",
+      "L9": "skipped"
+    }
+  },
+  "scenario": "late_join",
+  "sessions": [
+    {
+      "commands": [
+        8,
+        6,
+        8,
+        11,
+        9,
+        6,
+        8,
+        12,
+        6,
+        10,
+        9,
+        7
+      ],
+      "flawed": false,
+      "name": "late_join",
+      "obfuscation_ms": null,
+      "password_runs": 0
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "cases": [
+    "V2",
+    "L3"
+  ],
+  "expect": {
+    "0": {
+      "L1": "not_fired",
+      "L11": "not_fired",
+      "L2": "not_fired",
+      "L3": "fired",
+      "L5": "fired"
+    }
+  },
+  "scenario": "flawed",
+  "sessions": [
+    {
+      "commands": [
+        9,
+        8,
+        13,
+        6,
+        10,
+        9,
+        13,
+        14,
+        12,
+        9,
+        14,
+        6
+      ],
+      "flawed": true,
+      "name": "flawed",
+      "obfuscation_ms": 20,
+      "password_runs": 0
+    }
+  ]
+}
